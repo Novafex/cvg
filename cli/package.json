@@ -1,0 +1,25 @@
+{
+  "name": "cvg-cli",
+  "version": "1.0.0",
+  "description": "Node based CLI tool for parsing/generating CVG vector graphics",
+  "type": "module",
+  "main": "dist/index.js",
+  "repository": "git://github.com/novafex/cvg.git",
+  "author": "Chris Pikul <ChrisPikul510@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/index"
+  },
+  "dependencies": {
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": "^18.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.10"
+  }
+}
