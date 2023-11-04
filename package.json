@@ -1,4 +1,7 @@
 {
     "private": true,
-    "workspaces": ["cli"]
+    "workspaces": ["cli"],
+    "scripts": {
+        "cli": "node ./cli"
+    }
 }
