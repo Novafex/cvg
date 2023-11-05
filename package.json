@@ -1,6 +1,6 @@
 {
     "private": true,
-    "workspaces": ["cli"],
+    "workspaces": ["cvg-cli", "cvg-common"],
     "scripts": {
         "cli": "node ./cli"
     }
