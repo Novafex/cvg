@@ -1,5 +1,5 @@
 {
-  "name": "cvg",
+  "name": "@novafex/cvg",
   "version": "0.1.0",
   "description": "Compressed Vector Graphics as a smaller SVG alternative for browsers and web apps",
   "type": "module",

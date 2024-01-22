@@ -9,6 +9,11 @@ with some liberties taken in flexibility for short-hand declarations.
 > [!WARNING]
 > Not for production use yet as it is still a heavy work-in-progress.
 
+```console
+npm install --save @novafex/cvg
+yarn add @novafex/cvg
+```
+
 ## Implementations
 
 It's suggested to use the [CLI](https://github.com/novafex/cvg/cvg-cli) for use
