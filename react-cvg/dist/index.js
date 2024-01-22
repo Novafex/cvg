@@ -29,6 +29,10 @@ module.exports = __toCommonJS(src_exports);
 // src/expand.tsx
 var import_react = require("react");
 function expandCVG(input) {
+  if (!input || !Array.isArray(input)) {
+    console.error("CVG requires a definition file, but none was supplied");
+    return null;
+  }
   const rootAttrs = {};
   if (typeof input[0] === "string") {
     rootAttrs.viewport = input[0];
