@@ -41,24 +41,24 @@ export type CVGViewportShort = [number, number];
 export type CVGViewport = string | CVGViewportShort | CVGViewportAll;
 
 export type CVGRootAttributeDimensions = {
-    width: Unit;
-    height: Unit;
+    width?: Unit;
+    height?: Unit;
 };
 
 export type CVGRootAttributeAspectAxis = 'none' | 'xMinYMin'| 'xMidYMin'| 'xMaxYMin' | 'xMinYMid' | 'xMidYMid' | 'xMaxYMid' | 'xMinYMax' | 'xMidYMax' | 'xMaxYMax';
 export type CVGRootAttributeAspectOp = 'meet' | 'slice';
 
 export type CVGRootAttributeAspect = {
-    preserveAspectRatio: `${CVGRootAttributeAspectAxis} ${CVGRootAttributeAspectOp}`;
+    preserveAspectRatio?: `${CVGRootAttributeAspectAxis} ${CVGRootAttributeAspectOp}`;
 }
 
 export type CVGRootAttributePosition = {
-    x: Unit;
-    y: Unit;
+    x?: Unit;
+    y?: Unit;
 }
 
 export type CVGRootAttributeViewport = {
-    viewport: string;
+    viewport?: string;
 }
 
 export type CVGRootAttributes = CVGRootAttributeDimensions & CVGRootAttributeAspect & CVGRootAttributePosition & CVGRootAttributeViewport;

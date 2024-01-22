@@ -36,20 +36,20 @@ type CVGViewportShort = [number, number];
  */
 type CVGViewport = string | CVGViewportShort | CVGViewportAll;
 type CVGRootAttributeDimensions = {
-    width: Unit;
-    height: Unit;
+    width?: Unit;
+    height?: Unit;
 };
 type CVGRootAttributeAspectAxis = 'none' | 'xMinYMin' | 'xMidYMin' | 'xMaxYMin' | 'xMinYMid' | 'xMidYMid' | 'xMaxYMid' | 'xMinYMax' | 'xMidYMax' | 'xMaxYMax';
 type CVGRootAttributeAspectOp = 'meet' | 'slice';
 type CVGRootAttributeAspect = {
-    preserveAspectRatio: `${CVGRootAttributeAspectAxis} ${CVGRootAttributeAspectOp}`;
+    preserveAspectRatio?: `${CVGRootAttributeAspectAxis} ${CVGRootAttributeAspectOp}`;
 };
 type CVGRootAttributePosition = {
-    x: Unit;
-    y: Unit;
+    x?: Unit;
+    y?: Unit;
 };
 type CVGRootAttributeViewport = {
-    viewport: string;
+    viewport?: string;
 };
 type CVGRootAttributes = CVGRootAttributeDimensions & CVGRootAttributeAspect & CVGRootAttributePosition & CVGRootAttributeViewport;
 /**
