@@ -1,0 +1,39 @@
+{
+    "author": "Chris Pikul <ChrisPikul510@gmail.com>",
+    "description": "React component for compressed vector graphics (CVG) expansion",
+    "exports": {
+        "default": "./dist/index.js",
+        "import": "./dist/esm/index.js",
+        "require": "./dist/index.js",
+        "types": "./index.d.ts"
+    },
+    "license": "MIT",
+    "name": "react-cvg",
+    "repository": "git://github.com/novafex/cvg.git",
+    "type": "module",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "tsup",
+        "watch": "tsup --watch"
+    },
+    "dependencies": {
+        "react": "^18.2.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.2.48",
+        "tsup": "^8.0.1"
+    },
+    "peerDependencies": {
+        "cvg-common": "1.0.0"
+    },
+    "tsup": {
+        "entry": ["src/index.ts"],
+        "splitting": true,
+        "sourcemap": true,
+        "clean": true,
+        "target": "node18.15",
+        "dts": true,
+        "format": ["esm", "cjs"],
+        "legacyOutput": true
+      }
+}
