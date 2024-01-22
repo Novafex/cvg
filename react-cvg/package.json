@@ -1,23 +1,32 @@
 {
-    "author": "Chris Pikul <ChrisPikul510@gmail.com>",
+    "name": "@novafex/react-cvg",
     "description": "React component for compressed vector graphics (CVG) expansion",
+    "author": "Chris Pikul <ChrisPikul510@gmail.com>",
+    "keywords": [
+        "vector",
+        "graphics",
+        "svg",
+        "compressed",
+        "optimized",
+        "react"
+    ],
     "exports": {
-        "default": "./dist/index.js",
+        "types": "./index.d.ts",
         "import": "./dist/esm/index.js",
         "require": "./dist/index.js",
-        "types": "./index.d.ts"
+        "default": "./dist/index.js"
     },
     "license": "MIT",
-    "name": "react-cvg",
     "repository": "git://github.com/novafex/cvg.git",
     "type": "module",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "scripts": {
         "build": "tsup",
         "watch": "tsup --watch",
         "prepublishOnly": "tsup"
     },
     "dependencies": {
+        "@novafex/cvg": "^0.1.0",
         "react": "^18.2.0"
     },
     "devDependencies": {
@@ -25,15 +34,25 @@
         "tsup": "^8.0.1"
     },
     "tsup": {
-        "entry": ["src/index.ts"],
-        "noExternal": ["cvg-common"],
+        "entry": [
+            "src/index.ts"
+        ],
+        "noExternal": [
+            "cvg-common"
+        ],
         "splitting": false,
         "sourcemap": true,
         "clean": true,
         "target": "node18.15",
         "platform": "neutral",
         "dts": true,
-        "format": ["esm", "cjs"],
+        "format": [
+            "esm",
+            "cjs"
+        ],
         "legacyOutput": true
-      }
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

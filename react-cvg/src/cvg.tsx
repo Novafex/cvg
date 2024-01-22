@@ -1,4 +1,4 @@
-import type { CVG as CVGDef } from "./types";
+import type { CVG as CVGDef } from '@novafex/cvg';
 import { useExpandedCVG } from './expand';
 
 /**

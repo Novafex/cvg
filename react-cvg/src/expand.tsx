@@ -1,4 +1,4 @@
-import type { CVG, CVGChild, Unit } from "./types";
+import type { CVG, CVGChild, Unit } from '@novafex/cvg';
 import { createElement, useMemo, type ReactNode } from "react";
 
 /**

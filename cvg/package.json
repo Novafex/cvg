@@ -42,5 +42,8 @@
       "cjs"
     ],
     "legacyOutput": true
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
