@@ -23,7 +23,8 @@
     "xmldom": "^0.6.0"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "prepublishOnly": "tsup"
   },
   "tsup": {
     "entry": [
