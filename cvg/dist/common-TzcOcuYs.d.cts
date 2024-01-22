@@ -90,4 +90,26 @@ type CVGChild = string | CVGElement;
  */
 type CVG = [CVGRoot, ...CVGChild[]];
 
-export type { CVG, CVGChild, CVGElement, CVGElementAttributes, CVGRoot, CVGRootAttributeAspect, CVGRootAttributeAspectAxis, CVGRootAttributeAspectOp, CVGRootAttributeDimensions, CVGRootAttributePosition, CVGRootAttributeViewport, CVGRootAttributes, CVGViewport, CVGViewportAll, CVGViewportShort, Unit };
+/**
+ * CVG - Compressed Vector Graphics
+ * --------------------------------
+ *
+ * Defines the common functionality shared between all platforms
+ *
+ * @module CVG
+ * @author Chris Pikul
+ * @copyright 2024 Novafex Technologies
+ * @license MIT
+ */
+
+/**
+ * Expands CVG objects into SVG source code.
+ *
+ * @see {@link expandCVGToSVGElement} for expanding to a DOM node instead.
+ * @param input Input CVG object
+ * @param withXMLDecl Whether to include the initial document type XML declaration
+ * @returns string of SVG code, non-formatted
+ */
+declare function expandCVGToSVGCode(input: CVG, withXMLDecl?: boolean): Promise<string>;
+
+export { type CVG as C, type Unit as U, type CVGViewportAll as a, type CVGViewportShort as b, type CVGViewport as c, type CVGRootAttributeDimensions as d, expandCVGToSVGCode as e, type CVGRootAttributeAspectAxis as f, type CVGRootAttributeAspectOp as g, type CVGRootAttributeAspect as h, type CVGRootAttributePosition as i, type CVGRootAttributeViewport as j, type CVGRootAttributes as k, type CVGRoot as l, type CVGElementAttributes as m, type CVGElement as n, type CVGChild as o };

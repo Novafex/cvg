@@ -1,4 +1,5 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _nullishCoalesce(lhs, rhsFn) { if (lhs != null) { return lhs; } else { return rhsFn(); } }var __create = Object.create;
+"use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -6,6 +7,10 @@ var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -23,6 +28,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // ../node_modules/xmldom/lib/entities.js
 var require_entities = __commonJS({
@@ -2145,7 +2151,71 @@ var require_dom_parser = __commonJS({
 });
 
 // src/node.ts
+var node_exports = {};
+__export(node_exports, {
+  compressSVGCodeToCVG: () => compressSVGCodeToCVG,
+  compressSVGElement: () => compressSVGElement,
+  expandCVGToSVGCode: () => expandCVGToSVGCode,
+  parseSVGString: () => parseSVGString
+});
+module.exports = __toCommonJS(node_exports);
 var import_xmldom = __toESM(require_dom_parser(), 1);
+
+// src/common.ts
+var SVGNS = "http://www.w3.org/2000/svg";
+function expandCVGToSVGCode(input, withXMLDecl = false) {
+  return new Promise((resolve, reject) => {
+    if (!input || !Array.isArray(input) || input.length === 0)
+      return reject(new TypeError("invalid CVG argument in expandCVGToCode"));
+    const nodes = [];
+    if (withXMLDecl)
+      nodes.push('<?xml version="1.0"?>');
+    if (typeof input[0] === "string") {
+      nodes.push(`<svg xmlns="${SVGNS}" viewport="${input[0]}">`);
+    } else if (Array.isArray(input[0])) {
+      if (input[0].length === 2) {
+        const [w, h] = input[0];
+        nodes.push(`<svg xmlns="${SVGNS}" viewport="0 0 ${w} ${h}">`);
+      } else if (input[0].length === 4) {
+        const [x, y, w, h] = input[0];
+        nodes.push(`<svg xmlns="${SVGNS}" viewport="${x} ${y} ${w} ${h}">`);
+      } else {
+        return reject(new TypeError("invalid CVG, viewport declaration has incorrect number of elements"));
+      }
+    } else if (typeof input[0] === "object") {
+      nodes.push(`<svg xmlns="${SVGNS}"`);
+      for (const attr in input[0]) {
+        nodes.push(` ${attr}="${input[0][attr].toString()}"`);
+      }
+      nodes.push(">");
+    } else {
+      return reject(new TypeError("invalid CVG, incorrect root declaration"));
+    }
+    for (let i = 1; i < input.length; i++) {
+      const child = input[i];
+      if (typeof child === "string") {
+        nodes.push(`<path d="${child}"/>`);
+      } else if (Array.isArray(child)) {
+        if (child.length < 2)
+          return reject(new TypeError(`invalid CVG, element ${i - 1} is too small`));
+        const [tag, attrs, innerText] = child;
+        nodes.push(`<${tag} `);
+        for (const attr in attrs)
+          nodes.push(` ${attr}="${attrs[attr].toString()}"`);
+        if (innerText && innerText.length > 0)
+          nodes.push(`>${innerText}</${tag}>`);
+        else
+          nodes.push("/>");
+      } else {
+        return reject(new TypeError(`invalid CVG, element ${i - 1} does not have the right type`));
+      }
+    }
+    nodes.push("</svg>");
+    resolve(nodes.join(""));
+  });
+}
+
+// src/node.ts
 function parseSVGString(input) {
   return new Promise((resolve, reject) => {
     const parser = new import_xmldom.DOMParser({
@@ -2180,8 +2250,8 @@ function compressSVGElement(svg) {
       }
     } else if (svg.hasAttribute("width") || svg.hasAttribute("height")) {
       ret[0] = {
-        width: parseInt(_nullishCoalesce(svg.getAttribute("width"), () => ( svg.getAttribute("height")))),
-        height: parseInt(_nullishCoalesce(svg.getAttribute("height"), () => ( svg.getAttribute("width"))))
+        width: parseInt(svg.getAttribute("width") ?? svg.getAttribute("height")),
+        height: parseInt(svg.getAttribute("height") ?? svg.getAttribute("width"))
       };
       if (svg.hasAttribute("preserveAspectRatio"))
         ret[0].preserveAspectRatio = svg.getAttribute("preserveAspectRatio");
@@ -2199,10 +2269,28 @@ function compressSVGElement(svg) {
     resolve(ret);
   });
 }
-
-
-
-exports.compressSVGElement = compressSVGElement; exports.parseSVGString = parseSVGString;
+function compressSVGCodeToCVG(code) {
+  return new Promise((resolve, reject) => {
+    if (!code || code.length === 0)
+      return reject(new TypeError("cannot compress empty code"));
+    parseSVGString(code).then((doc) => {
+      if (!doc || !doc.documentElement)
+        throw new Error("invalid input, no valid DOM found");
+      compressSVGElement(doc.documentElement).then(resolve).catch(reject);
+    }).catch(reject);
+  });
+}
+/**
+ * CVG - Compressed Vector Graphics
+ * --------------------------------
+ * 
+ * Defines the common functionality shared between all platforms
+ * 
+ * @module CVG
+ * @author Chris Pikul
+ * @copyright 2024 Novafex Technologies
+ * @license MIT
+ */
 /**
  * CVG - Compressed Vector Graphics
  * --------------------------------

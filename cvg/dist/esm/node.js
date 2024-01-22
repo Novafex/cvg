@@ -2146,6 +2146,62 @@ var require_dom_parser = __commonJS({
 
 // src/node.ts
 var import_xmldom = __toESM(require_dom_parser(), 1);
+
+// src/common.ts
+var SVGNS = "http://www.w3.org/2000/svg";
+function expandCVGToSVGCode(input, withXMLDecl = false) {
+  return new Promise((resolve, reject) => {
+    if (!input || !Array.isArray(input) || input.length === 0)
+      return reject(new TypeError("invalid CVG argument in expandCVGToCode"));
+    const nodes = [];
+    if (withXMLDecl)
+      nodes.push('<?xml version="1.0"?>');
+    if (typeof input[0] === "string") {
+      nodes.push(`<svg xmlns="${SVGNS}" viewport="${input[0]}">`);
+    } else if (Array.isArray(input[0])) {
+      if (input[0].length === 2) {
+        const [w, h] = input[0];
+        nodes.push(`<svg xmlns="${SVGNS}" viewport="0 0 ${w} ${h}">`);
+      } else if (input[0].length === 4) {
+        const [x, y, w, h] = input[0];
+        nodes.push(`<svg xmlns="${SVGNS}" viewport="${x} ${y} ${w} ${h}">`);
+      } else {
+        return reject(new TypeError("invalid CVG, viewport declaration has incorrect number of elements"));
+      }
+    } else if (typeof input[0] === "object") {
+      nodes.push(`<svg xmlns="${SVGNS}"`);
+      for (const attr in input[0]) {
+        nodes.push(` ${attr}="${input[0][attr].toString()}"`);
+      }
+      nodes.push(">");
+    } else {
+      return reject(new TypeError("invalid CVG, incorrect root declaration"));
+    }
+    for (let i = 1; i < input.length; i++) {
+      const child = input[i];
+      if (typeof child === "string") {
+        nodes.push(`<path d="${child}"/>`);
+      } else if (Array.isArray(child)) {
+        if (child.length < 2)
+          return reject(new TypeError(`invalid CVG, element ${i - 1} is too small`));
+        const [tag, attrs, innerText] = child;
+        nodes.push(`<${tag} `);
+        for (const attr in attrs)
+          nodes.push(` ${attr}="${attrs[attr].toString()}"`);
+        if (innerText && innerText.length > 0)
+          nodes.push(`>${innerText}</${tag}>`);
+        else
+          nodes.push("/>");
+      } else {
+        return reject(new TypeError(`invalid CVG, element ${i - 1} does not have the right type`));
+      }
+    }
+    nodes.push("</svg>");
+    resolve(nodes.join(""));
+  });
+}
+
+// src/node.ts
 function parseSVGString(input) {
   return new Promise((resolve, reject) => {
     const parser = new import_xmldom.DOMParser({
@@ -2199,10 +2255,34 @@ function compressSVGElement(svg) {
     resolve(ret);
   });
 }
+function compressSVGCodeToCVG(code) {
+  return new Promise((resolve, reject) => {
+    if (!code || code.length === 0)
+      return reject(new TypeError("cannot compress empty code"));
+    parseSVGString(code).then((doc) => {
+      if (!doc || !doc.documentElement)
+        throw new Error("invalid input, no valid DOM found");
+      compressSVGElement(doc.documentElement).then(resolve).catch(reject);
+    }).catch(reject);
+  });
+}
 export {
+  compressSVGCodeToCVG,
   compressSVGElement,
+  expandCVGToSVGCode,
   parseSVGString
 };
+/**
+ * CVG - Compressed Vector Graphics
+ * --------------------------------
+ * 
+ * Defines the common functionality shared between all platforms
+ * 
+ * @module CVG
+ * @author Chris Pikul
+ * @copyright 2024 Novafex Technologies
+ * @license MIT
+ */
 /**
  * CVG - Compressed Vector Graphics
  * --------------------------------

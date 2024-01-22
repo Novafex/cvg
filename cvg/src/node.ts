@@ -95,15 +95,33 @@ export function compressSVGElement(svg: Element): Promise<CVG> {
 }
 
 /**
- * Expands the given CVG definition into a SVG DOM Element.
+ * Compresses the given SVG source code into CVG. It uses both the
+ * {@link parseSVGString} and {@link compressSVGElement} functions to do so.
+ * Internally this uses a DOM-style library to walk the element.
  * 
- * @param cvg Incoming CVG object defining the graphic
- * @returns Promise resolving to an `Element`
+ * @param code SVG source code
+ * @returns Promise resolving to CVG
+ * @throws on any parsing errors
  */
-export function expandCVGToSVGElement(cvg: CVG): Promise<Element> {
-    return new Promise<Element>(() => {
-        throw new Error('not implemented yet');
+export function compressSVGCodeToCVG(code: string): Promise<CVG> {
+    return new Promise<CVG>((resolve, reject) => {
+        if (!code || code.length === 0)
+            return reject(new TypeError("cannot compress empty code"));
+
+        parseSVGString(code)
+            .then((doc: Document) => {
+                if (!doc || !doc.documentElement) 
+                    throw new Error('invalid input, no valid DOM found');
+
+                // Convert to CVG now
+                compressSVGElement(doc.documentElement)
+                    .then(resolve)
+                    .catch(reject);
+            })
+            .catch(reject);
     });
 }
+
+export { expandCVGToSVGCode } from './common';
 
 export type * from './types';
