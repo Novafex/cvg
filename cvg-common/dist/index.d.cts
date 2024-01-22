@@ -90,4 +90,24 @@ type CVGChild = string | CVGElement;
  */
 type CVG = [CVGRoot, ...CVGChild[]];
 
-export { CVG, CVGChild, CVGElement, CVGElementAttributes, CVGRoot, CVGRootAttributeAspect, CVGRootAttributeAspectAxis, CVGRootAttributeAspectOp, CVGRootAttributeDimensions, CVGRootAttributePosition, CVGRootAttributeViewport, CVGRootAttributes, CVGViewport, CVGViewportAll, CVGViewportShort, Unit };
+/**
+ * Expands CVG objects into SVG source code. This returns text instead of nodes
+ * for use in Node or other non-browser environments.
+ *
+ * @see {@link expandCVG} for expanding to a DOM node instead.
+ * @param input Input CVG object
+ * @param withXMLDecl Whether to include the initial document type XML declaration
+ * @returns string of SVG code, non-formatted
+ */
+declare function expandCVGToCode(input: CVG, withXMLDecl?: boolean): string;
+/**
+ * Expands CVG objects into SVG DOM nodes. This returns a {@link SVGElement} that
+ * is ready for use inside the DOM.
+ *
+ * @see {@link expandCVGToCode} for non-DOM source code instead
+ * @param input Input CVG object
+ * @returns SVG DOM node
+ */
+declare function expandCVG(input: CVG): SVGElement;
+
+export { CVG, CVGChild, CVGElement, CVGElementAttributes, CVGRoot, CVGRootAttributeAspect, CVGRootAttributeAspectAxis, CVGRootAttributeAspectOp, CVGRootAttributeDimensions, CVGRootAttributePosition, CVGRootAttributeViewport, CVGRootAttributes, CVGViewport, CVGViewportAll, CVGViewportShort, Unit, expandCVG, expandCVGToCode };
