@@ -10,6 +10,11 @@ import { createElement, useMemo, type ReactNode } from "react";
  * @returns SVG DOM node
  */
 export function expandCVG(input: CVG): ReactNode {
+    if (!input || !Array.isArray(input)) {
+        console.error('CVG requires a definition file, but none was supplied');
+        return null;
+    }
+    
     // Start with the root portion
     const rootAttrs: Record<string, string> = {};
 

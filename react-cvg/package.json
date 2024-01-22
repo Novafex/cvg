@@ -11,10 +11,11 @@
     "name": "react-cvg",
     "repository": "git://github.com/novafex/cvg.git",
     "type": "module",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "scripts": {
         "build": "tsup",
-        "watch": "tsup --watch"
+        "watch": "tsup --watch",
+        "prepublishOnly": "tsup"
     },
     "dependencies": {
         "react": "^18.2.0"
