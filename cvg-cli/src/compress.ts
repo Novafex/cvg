@@ -9,13 +9,11 @@ import { parseSVG, svgToCVG } from './cvg.js';
 
 type CommandOptions = {
     outDir?: string;
-    pipe: boolean;
+    //pipe: boolean;
 }
 
 async function action(this: Command): Promise<void> {
-    //const opts = this.opts<CommandOptions>();
-
-    console.log(Chalk.blue('finding files matching provided glob patterns...'));
+    const opts = this.opts<CommandOptions>();
     for await(const file of globIterate(this.args)) {
         const abs = Path.resolve(process.cwd(), file);
         console.log(Chalk.cyan(`processing input file: ${abs}`));
@@ -28,8 +26,12 @@ async function action(this: Command): Promise<void> {
             const cvg = await svgToCVG(svg.documentElement);
             
             const withoutExt = abs.substring(0, abs.lastIndexOf('.'));
-            const outPath = Path.join(withoutExt + '.cvg');
-            console.log(`Writing to ${outPath}...`);
+            
+            let outPath = '.';
+            if (opts.outDir)
+                outPath = Path.join(opts.outDir, Path.basename(withoutExt + '.svg'));
+            else
+                outPath = withoutExt + '.svg';
 
             await FS.writeFile(outPath, JSON.stringify(cvg), 'utf-8');
             console.log(Chalk.greenBright(`Wrote output CVG to ${outPath}`));
