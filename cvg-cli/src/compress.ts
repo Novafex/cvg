@@ -13,32 +13,28 @@ type CommandOptions = {
 }
 
 async function action(this: Command): Promise<void> {
-    const opts = this.opts<CommandOptions>();
+    //const opts = this.opts<CommandOptions>();
 
-    if(opts.pipe) {
-        console.log(Chalk.blue('awaiting SVG input from STDIN...'));
-    } else {
-        console.log(Chalk.blue('finding files matching provided glob patterns...'));
-        for await(const file of globIterate(this.args)) {
-            const abs = Path.resolve(process.cwd(), file);
-            console.log(Chalk.cyan(`processing input file: ${abs}`));
+    console.log(Chalk.blue('finding files matching provided glob patterns...'));
+    for await(const file of globIterate(this.args)) {
+        const abs = Path.resolve(process.cwd(), file);
+        console.log(Chalk.cyan(`processing input file: ${abs}`));
 
-            try {
-                const rawSVG = await FS.readFile(abs);
-                const svg = await parseSVG(rawSVG.toString());
-                if (!svg || !svg.documentElement) throw new Error('invalid input, no valid DOM found');
+        try {
+            const rawSVG = await FS.readFile(abs);
+            const svg = await parseSVG(rawSVG.toString());
+            if (!svg || !svg.documentElement) throw new Error('invalid input, no valid DOM found');
 
-                const cvg = await svgToCVG(svg.documentElement);
-                
-                const withoutExt = abs.substring(0, abs.lastIndexOf('.'));
-                const outPath = Path.join(withoutExt + '.cvg');
-                console.log(`Writing to ${outPath}...`);
+            const cvg = await svgToCVG(svg.documentElement);
+            
+            const withoutExt = abs.substring(0, abs.lastIndexOf('.'));
+            const outPath = Path.join(withoutExt + '.cvg');
+            console.log(`Writing to ${outPath}...`);
 
-                await FS.writeFile(outPath, JSON.stringify(cvg), 'utf-8');
-                console.log(Chalk.greenBright(`Wrote output CVG to ${outPath}`));
-            } catch(err: unknown) {
-                console.error(Chalk.red(`failed to compress file ${abs}: `), err);
-            }
+            await FS.writeFile(outPath, JSON.stringify(cvg), 'utf-8');
+            console.log(Chalk.greenBright(`Wrote output CVG to ${outPath}`));
+        } catch(err: unknown) {
+            console.error(Chalk.red(`failed to compress file ${abs}: `), err);
         }
     }
 }
@@ -48,5 +44,5 @@ export default new Command("compress")
     .addHelpText('before', 'accepts file path globs to locate files to be consumed as SVG.')
     .arguments("[globs...]")
     .option('-o, --out-dir <PATH>', 'output directory to place CVG files, will default to same as input location')
-    .option('-p, --pipe', 'watches STDIN for SVG input and responds with CVG output', false)
+    // .option('-p, --pipe', 'watches STDIN for SVG input and responds with CVG output', false)
     .action(action)
