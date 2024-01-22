@@ -7,6 +7,19 @@ in bundles for web based applications, and this even stretches to native via Rea
 un-neccessary formatting directives and delivering a format that compresses well. Sending CVG over the wire in network calls can save bandwidth compared to traditional
 formats.
 
+> [!WARNING]
+> Not ready for production usage, it is still a major work in progress!
+
+## Roadmap
+
+- [ ] Allow for groups and nested nodes
+- [ ] Optimize internal style-sheets
+- [ ] Run SVGO during compression
+- [ ] Bundle outputs to a single dictionary
+- [ ] React component
+- [ ] React-Native component
+- [ ] Binary CVG format
+
 ## How Does It Work?
 
 Essentially, all the extra fluff is removed from SVG and it is compressed down into a JSON format. JSON was chosen for the initial format since it is native to web and
