@@ -1,5 +1,33 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});// src/expand.tsx
-var _react = require('react');
+"use strict";
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/index.ts
+var src_exports = {};
+__export(src_exports, {
+  default: () => src_default,
+  expandCVG: () => expandCVG,
+  useExpandedCVG: () => useExpandedCVG
+});
+module.exports = __toCommonJS(src_exports);
+
+// src/expand.tsx
+var import_react = require("react");
 function expandCVG(input) {
   const rootAttrs = {};
   if (typeof input[0] === "string") {
@@ -29,17 +57,17 @@ function expandCVG(input) {
       if (child.length < 2)
         throw new TypeError(`invalid CVG, element ${i - 1} is too small`);
       const [tag, attrs, innerText] = child;
-      children.push(_react.createElement.call(void 0, tag, {
+      children.push((0, import_react.createElement)(tag, {
         ...attrs
       }, innerText && innerText.length > 0 ? innerText : null));
     } else {
       throw new TypeError(`invalid CVG, element ${i - 1} does not have the right type`);
     }
   }
-  return _react.createElement.call(void 0, "svg", rootAttrs, children);
+  return (0, import_react.createElement)("svg", rootAttrs, children);
 }
 function useExpandedCVG(def) {
-  return _react.useMemo.call(void 0, () => expandCVG(def), [def]);
+  return (0, import_react.useMemo)(() => expandCVG(def), [def]);
 }
 
 // src/cvg.tsx
@@ -50,9 +78,4 @@ function CVG(props) {
 
 // src/index.ts
 var src_default = CVG;
-
-
-
-
-exports.default = src_default; exports.expandCVG = expandCVG; exports.useExpandedCVG = useExpandedCVG;
 //# sourceMappingURL=index.js.map

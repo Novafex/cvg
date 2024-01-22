@@ -1,4 +1,4 @@
-import type { CVG, CVGChild, Unit } from "cvg-common";
+import type { CVG, CVGChild, Unit } from "./types";
 import { createElement, useMemo, type ReactNode } from "react";
 
 /**

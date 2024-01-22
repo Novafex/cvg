@@ -1,4 +1,4 @@
-import type { CVG as CVGDef } from 'cvg-common';
+import type { CVG as CVGDef } from "./types";
 import { useExpandedCVG } from './expand';
 
 /**
