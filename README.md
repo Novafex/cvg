@@ -27,8 +27,8 @@ JavaScript based systems, allowing for existing tools like TypeScript to handle 
 well. When received by the frontend system it is "re-hydrated" back to SVG by filling in all the standard props.
 
 An assumption on authoring the original SVG images is made in order to make the most
-of CVG. Path only graphics work best and deliver more consistant iconography. Usages
-of CSS and special gradients should be avoided. **CVG is targetting icon libraries**
+of CVG. Path only graphics work best and deliver more consistent iconography. Usages
+of CSS and special gradients should be avoided. **CVG is targeting icon libraries**
 which feature simpler vector graphic objects.
 
 To compress even further, [SVGO](https://github.com/svg/svgo) will optimize the initial SVG before final compression.
@@ -43,7 +43,7 @@ Created and written by Chris Pikul
 
 MIT License
 
-Copyright (c) 2023 Novafex
+Copyright (c) 2023 Novafex Technologies
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
