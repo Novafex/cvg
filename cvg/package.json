@@ -1,0 +1,51 @@
+{
+  "name": "cvg",
+  "version": "1.0.0",
+  "description": "Compressed Vector Graphics as a smaller SVG alternative for browsers and web apps",
+  "type": "module",
+  "exports": {
+    "types": "./dist/generic.d.ts",
+    "browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/esm/browser.js",
+      "require": "./dist/browser.js"
+    },
+    "node": {
+      "types": "./dist/node.d.ts",
+      "import": "./dist/esm/node.js",
+      "require": "./dist/node.js"
+    },
+    "import": "./dist/esm/generic.js",
+    "require": "./dist/generic.js"
+  },
+  "repository": "https://github.com/novafex/cvg",
+  "author": "Chris Pikul <ChrisPikul510@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "xmldom": "^0.6.0"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "src/generic.ts",
+      "src/node.ts",
+      "src/browser.ts"
+    ],
+    "splitting": true,
+    "sourcemap": true,
+    "clean": true,
+    "target": "node18.15",
+    "platform": "neutral",
+    "dts": true,
+    "format": [
+      "esm",
+      "cjs"
+    ],
+    "legacyOutput": true
+  }
+}
