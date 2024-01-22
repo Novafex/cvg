@@ -1,0 +1,38 @@
+{
+  "name": "@novafex/cvg-cli",
+  "version": "0.1.0",
+  "description": "Node CLI for working with compressed vector graphics (CVG)",
+  "main": "dist/entry.js",
+  "type": "module",
+  "bin": {
+    "cvg": "./dist/entry.mjs"
+  },
+  "repository": "https://github.com/novafex/cvg",
+  "author": "Chris Pikul <ChrisPikul510@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@novafex/cvg": "^0.1.0",
+    "@types/node": "^20.11.5",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "glob": "^10.3.10"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "src/entry.ts"
+    ],
+    "sourcemap": true,
+    "clean": true,
+    "target": "node18.15",
+    "platform": "node",
+    "format": ["esm"]
+  }
+}
